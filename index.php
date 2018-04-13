@@ -15,7 +15,7 @@ require('UploadHandler.php');
 $upload_handler = new UploadHandler();
 
  */
-function predump($var) {
+function dump($var) {
 	echo "<pre>";
 	print_r($var);
 	echo "</pre>";
@@ -32,7 +32,7 @@ if (strlen($_uri) > 0) {
 	}
 }
 
-predump($uri);
+dump($uri);
 die();
 
 switch ($_SERVER["REQUEST_METHOD"]) {
