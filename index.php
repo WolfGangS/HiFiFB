@@ -130,7 +130,8 @@ case "GET":
 			$readfile = $uri;
 			$blockDownload = true;
 		}
-	break;
+		break;
+	}
 case "POST":
 
 	break;
