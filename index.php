@@ -87,7 +87,7 @@ $download = false;
 switch ($_SERVER["REQUEST_METHOD"]) {
 case "GET":
 	switch (strtolower($uri[0])) {
-	case "hififb.js";
+	case "hififb";
 		if (is_file("HiFiFB.js")) {
 			$readfile = "index.html";
 		}
