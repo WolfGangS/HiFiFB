@@ -163,7 +163,7 @@ $(document).ready(function() {
                 else if (hash[0].trim().length) {
 
                     rendered = searchByPath(hash[0]);
-
+                    console.log(rendered);
                     if (rendered.length) {
 
                         currentPath = hash[0];
