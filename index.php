@@ -101,7 +101,10 @@ case "GET":
 		];
 		break;
 	case "assets":
-		echo "assets 4 u";
+		$uri = implode("/", $uri);
+		if (is_file($uri)) {
+			$readfile = $uri;
+		}
 		break;
 	case "html":
 		if (is_file("index.html")) {
