@@ -21,6 +21,18 @@ function dump($var) {
 	echo "</pre>";
 }
 
+function startsWith($haystack, $needle) {
+	$length = strlen($needle);
+	return (substr($haystack, 0, $length) === $needle);
+}
+
+function endsWith($haystack, $needle) {
+	$length = strlen($needle);
+
+	return $length === 0 ||
+		(substr($haystack, -$length) === $needle);
+}
+
 function scan($dir) {
 
 	$files = array();
@@ -82,7 +94,7 @@ $readfile = null;
 
 $headers = [];
 $jsonResponse = [];
-$download = false;
+$blockDownload = false;
 
 switch ($_SERVER["REQUEST_METHOD"]) {
 case "GET":
@@ -90,6 +102,7 @@ case "GET":
 	case "hififb";
 		if (is_file("HiFiFB.js")) {
 			$readfile = "HiFiFB.js";
+			$blockDownload = true;
 		}
 		break;
 	case "json";
@@ -115,6 +128,7 @@ case "GET":
 		$uri = implode("/", $uri);
 		if (is_file($uri)) {
 			$readfile = $uri;
+			$blockDownload = true;
 		}
 	default:
 		http_response_code(404);
@@ -136,8 +150,8 @@ if (!empty($jsonResponse)) {
 	$finfo = finfo_open(FILEINFO_MIME_TYPE);
 	$type = finfo_file($finfo, $readfile);
 	finfo_close($finfo);
-	dump($type);die();
-	if ($type != "text/plain") {
+
+	if (!$blockDownload && !startsWith($type, "text")) {
 		header('Content-Description: File Transfer');
 		header('Content-Type: application/octet-stream');
 		header('Content-Disposition: attachment; filename="' . basename($readfile) . '"');
