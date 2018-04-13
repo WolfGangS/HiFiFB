@@ -15,6 +15,12 @@ require('UploadHandler.php');
 $upload_handler = new UploadHandler();
 
  */
+function dump($var){
+    echo "<pre>";
+    print_r($var);
+    echo "</pre>";
+}
+
 
 $uri = [];
 $_uri = trim(trim($_SERVER["REQUEST_URI"]), "\\/");
@@ -26,7 +32,8 @@ if (strlen($_uri) > 0) {
 		}
 	}
 }
-print_r($uri);
+echo "<pre"
+dump($uri);
 die();
 
 switch ($_SERVER["REQUEST_METHOD"]) {
