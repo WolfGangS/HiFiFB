@@ -16,8 +16,17 @@ $upload_handler = new UploadHandler();
 
  */
 
-$uri = trim(trim($_SERVER["REQUEST_URI"]), "\\/");
-echo $uri;
+$uri = [];
+$_uri = trim(trim($_SERVER["REQUEST_URI"]), "\\/");
+if (strlen($_uri) > 0) {
+	$_uri = explode("/", $_uri);
+	foreach ($_uri as $ur) {
+		if (substr($ur, 0, 1) !== ".") {
+			$uri[] = $ur;
+		}
+	}
+}
+print_r($uri);
 die();
 
 switch ($_SERVER["REQUEST_METHOD"]) {
