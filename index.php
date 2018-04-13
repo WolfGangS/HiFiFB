@@ -107,8 +107,9 @@ case "GET":
 			"items" => scan("Assets"),
 		];
 		break;
+	}
 case "POST":
-    
+
 	break;
 default:
 
