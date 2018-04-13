@@ -99,12 +99,6 @@ $blockDownload = false;
 switch ($_SERVER["REQUEST_METHOD"]) {
 case "GET":
 	switch (strtolower($uri[0])) {
-	case "hififb";
-		if (is_file("HiFiFB.js")) {
-			$readfile = "HiFiFB.js";
-			$blockDownload = true;
-		}
-		break;
 	case "json";
 		$jsonResponse = [
 			"name" => "Assets",
@@ -113,27 +107,8 @@ case "GET":
 			"items" => scan("Assets"),
 		];
 		break;
-	case "assets":
-		$uri = implode("/", $uri);
-		if (is_file($uri)) {
-			$readfile = $uri;
-		}
-		break;
-	case "html":
-		if (is_file("index.html")) {
-			$readfile = "index.html";
-		}
-		break;
-	case "app":
-		$uri = implode("/", $uri);
-		if (is_file($uri)) {
-			$readfile = $uri;
-			$blockDownload = true;
-		}
-		break;
-	}
 case "POST":
-
+    
 	break;
 default:
 
