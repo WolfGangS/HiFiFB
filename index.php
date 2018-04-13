@@ -82,12 +82,15 @@ $readfile = null;
 
 $headers = [];
 $jsonResponse = [];
+$download = false;
 
 switch ($_SERVER["REQUEST_METHOD"]) {
 case "GET":
 	switch (strtolower($uri[0])) {
 	case "hififb.js";
-		echo "HIFIFB";
+		if (is_file("HiFiFB.js")) {
+			$readfile = "index.html";
+		}
 		break;
 	case "json";
 		$jsonResponse = [
@@ -121,9 +124,23 @@ default:
 if (!empty($jsonResponse)) {
 	header('Content-Type: application/json');
 	echo json_encode($jsonResponse);
-} else {
-	foreach ($headers as $header) {
-		header($header);
+} else if (!empty($readfile)) {
+	$finfo = finfo_open(FILEINFO_MIME_TYPE);
+	$type = finfo_file($finfo, $readfile);
+	finfo_close($finfo);
+
+	if ($type != "text/plain") {
+		header('Content-Description: File Transfer');
+		header('Content-Type: application/octet-stream');
+		header('Content-Disposition: attachment; filename="' . basename($readfile) . '"');
+		header('Expires: 0');
+		header('Cache-Control: must-revalidate');
+		header('Pragma: public');
+		header('Content-Length: ' . filesize($readfile));
+	}
+	$parts = explode(".", $readfile);
+	if (strtolower($parts[count($parts) - 1]) == "json") {
+		header('Content-Type: application/json');
 	}
 	if ($readfile !== null) {
 		readfile($readfile);
