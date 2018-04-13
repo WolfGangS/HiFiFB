@@ -89,7 +89,7 @@ case "GET":
 	switch (strtolower($uri[0])) {
 	case "hififb";
 		if (is_file("HiFiFB.js")) {
-			$readfile = "index.html";
+			$readfile = "HiFiFB.js";
 		}
 		break;
 	case "json";
@@ -128,7 +128,7 @@ if (!empty($jsonResponse)) {
 	$finfo = finfo_open(FILEINFO_MIME_TYPE);
 	$type = finfo_file($finfo, $readfile);
 	finfo_close($finfo);
-
+	dump($type);die();
 	if ($type != "text/plain") {
 		header('Content-Description: File Transfer');
 		header('Content-Type: application/octet-stream');
