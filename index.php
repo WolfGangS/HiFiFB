@@ -16,18 +16,18 @@ $upload_handler = new UploadHandler();
 
  */
 
-$uri = trim(trim($_SERVER["REQUEST_URI"]),"\\/");
-echo $uri;die();
+$uri = trim(trim($_SERVER["REQUEST_URI"]), "\\/");
+echo $uri;
+die();
 
+switch ($_SERVER["REQUEST_METHOD"]) {
+case "GET":
+	//if()
+	break;
+case "POST":
 
-switch($_SERVER["REQUEST_METHOD"]){
-    case "GET":
-        if($_SERVER["REQUEST_URI"] ==)
-        break;
-    case "POST":
+	break;
+default:
 
-        break;
-    default:
-
-        break;
+	break;
 }
