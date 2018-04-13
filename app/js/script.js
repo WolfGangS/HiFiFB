@@ -6,7 +6,7 @@ $(function(){
 
 	// Start by fetching the file data from scan.php with an AJAX request
 
-	$.get("/get-assets", function(data) {
+	$.get("json", function(data) {
 
 		var response = [data],
 			currentPath = '',
