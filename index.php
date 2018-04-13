@@ -76,7 +76,7 @@ if (strlen($_uri) > 0) {
 	$uri[] = "";
 }
 
-dump($uri);
+//dump($uri);
 
 $readfile = null;
 
