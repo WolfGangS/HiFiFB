@@ -108,6 +108,11 @@ case "GET":
 			$readfile = "index.html";
 		}
 		break;
+	case "app":
+		$uri = implode("/", $uri);
+		if (is_file($uri)) {
+			$readfile = $uri;
+		}
 	default:
 		http_response_code(404);
 		break;
