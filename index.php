@@ -130,10 +130,6 @@ case "GET":
 			$readfile = $uri;
 			$blockDownload = true;
 		}
-	default:
-		http_response_code(404);
-		break;
-	}
 	break;
 case "POST":
 
@@ -167,4 +163,6 @@ if (!empty($jsonResponse)) {
 	if ($readfile !== null) {
 		readfile($readfile);
 	}
+} else {
+	http_response_code(404);
 }
