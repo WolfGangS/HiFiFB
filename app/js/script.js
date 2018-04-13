@@ -144,7 +144,7 @@ $(document).ready(function() {
                 var rendered = '';
 
                 // if hash has search in it
-
+                console.log(hash[0]);
                 if (hash[0] === 'search') {
 
                     filemanager.addClass('searching');
