@@ -15,12 +15,19 @@ require('UploadHandler.php');
 $upload_handler = new UploadHandler();
 
  */
-echo "<pre>";
-print_r($_REQUEST);
-echo "</pre>";
 
-echo "<hr>";
+$uri = trim(trim($_SERVER["REQUEST_URI"]),"\\/");
+echo $uri;die();
 
-echo "<pre>";
-print_r($_SERVER);
-echo "</pre>";
+
+switch($_SERVER["REQUEST_METHOD"]){
+    case "GET":
+        if($_SERVER["REQUEST_URI"] ==)
+        break;
+    case "POST":
+
+        break;
+    default:
+
+        break;
+}
