@@ -107,7 +107,7 @@ case "GET":
 		break;
 	case "json";
 		$jsonResponse = [
-			"name" => "files",
+			"name" => "Assets",
 			"type" => "folder",
 			"path" => "Assets",
 			"items" => scan("Assets"),
