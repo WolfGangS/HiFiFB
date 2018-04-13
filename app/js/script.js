@@ -217,7 +217,7 @@
     // Locates a file by path
 
     function searchByPath(dir) {
-    	if(typeof dir !== string)dir = "";
+    	if(typeof dir !== "string")dir = "";
         var path = dir.split('/'),
             demo = response,
             flag = 0;
