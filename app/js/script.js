@@ -1,4 +1,8 @@
-$(document).ready(function() {
+(function() {
+
+    $(document).ready(function() {
+        getData();
+    });
 
     var filemanager = $('.filemanager'),
         breadcrumbs = $('.breadcrumbs'),
@@ -14,16 +18,16 @@ $(document).ready(function() {
     var folders = [],
         files = [];
 
-    function getData(){
-    	if(document.protocol == "file:"){
-    		dataResponse({"name":"Assets","type":"folder","path":"Assets","items":[{"name":"file a","type":"file","path":"Assets\/file a","size":0},{"name":"file b","type":"file","path":"Assets\/file b","size":0},{"name":"file c","type":"file","path":"Assets\/file c","size":0},{"name":"folder","type":"folder","path":"Assets\/folder","items":[{"name":"sub a","type":"file","path":"Assets\/folder\/sub a","size":0},{"name":"sub b","type":"file","path":"Assets\/folder\/sub b","size":0},{"name":"sub v","type":"file","path":"Assets\/folder\/sub v","size":0}]},{"name":"pupper","type":"folder","path":"Assets\/pupper","items":[{"name":"toy","type":"file","path":"Assets\/pupper\/toy","size":0}]}]});
-    	} else {
-    		$.get("json", dataResponse);
-    	}
+    function getData() {
+        if (document.protocol == "file:") {
+            dataResponse({ "name": "Assets", "type": "folder", "path": "Assets", "items": [{ "name": "file a", "type": "file", "path": "Assets\/file a", "size": 0 }, { "name": "file b", "type": "file", "path": "Assets\/file b", "size": 0 }, { "name": "file c", "type": "file", "path": "Assets\/file c", "size": 0 }, { "name": "folder", "type": "folder", "path": "Assets\/folder", "items": [{ "name": "sub a", "type": "file", "path": "Assets\/folder\/sub a", "size": 0 }, { "name": "sub b", "type": "file", "path": "Assets\/folder\/sub b", "size": 0 }, { "name": "sub v", "type": "file", "path": "Assets\/folder\/sub v", "size": 0 }] }, { "name": "pupper", "type": "folder", "path": "Assets\/pupper", "items": [{ "name": "toy", "type": "file", "path": "Assets\/pupper\/toy", "size": 0 }] }] });
+        } else {
+            $.get("json", dataResponse);
+        }
     }
 
     function dataResponse(data) {
-		response = [data];
+        response = [data];
         $(window).trigger('hashchange');
     }
 
@@ -389,4 +393,5 @@ $(document).ready(function() {
         var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
         return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
     }
-});
+
+})();
