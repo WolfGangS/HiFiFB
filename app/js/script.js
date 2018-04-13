@@ -357,7 +357,7 @@ $(document).ready(function() {
 
             // Show the generated elements
 
-            fileList.animate({ 'display': 'inline-block' });
+            fileList.fadeIn();
 
         }
 
