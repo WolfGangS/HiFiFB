@@ -21,7 +21,7 @@ $_uri = trim(trim($_SERVER["REQUEST_URI"]), "\\/");
 if (strlen($_uri) > 0) {
 	$_uri = explode("/", $_uri);
 	foreach ($_uri as $ur) {
-		if (substr($ur, 0, 1) !== ".") {
+		if (strlen($ur) > 0 && substr($ur, 0, 1) !== ".") {
 			$uri[] = $ur;
 		}
 	}
