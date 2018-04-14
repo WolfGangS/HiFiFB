@@ -46,14 +46,14 @@
 
     // Hiding and showing the search box
 
-    filemanager.find('.search').click(function() {
+    /*filemanager.find('.search').click(function() {
 
         var search = $(this);
 
         search.find('span').hide();
         search.find('input[type=search]').show().focus();
 
-    });
+    });*/
 
 
     // Listening for keyboard input on the search field.
@@ -81,18 +81,6 @@
 
         }
 
-    }).on('input', function(e) {
-
-        // Clicking 'ESC' button triggers focusout and cancels the search
-
-        var search = $(this);
-
-        if (e.keyCode == 27) {
-
-            search.trigger('focusout');
-
-        }
-
     }).focusout(function(e) {
 
         // Cancel the search
@@ -102,8 +90,8 @@
         if (!search.val().trim().length) {
 
             window.location.hash = encodeURIComponent(currentPath);
-            search.hide();
-            search.parent().find('span').show();
+            //search.hide();
+            //search.parent().find('span').show();
 
         }
 
@@ -164,7 +152,12 @@
             if (hash[0] === 'search') {
 
                 filemanager.addClass('searching');
-                rendered = searchData(response, hash[1].toLowerCase());
+                var searchString = hash[1].toLowerCase();
+                rendered = searchData(response, searchString);
+
+                if(filemanager.find('input').val().length !== searchString){
+                	filemanager.find('input').val(searchString);
+                }
 
                 if (rendered.length) {
                     currentPath = hash[0];
@@ -355,14 +348,27 @@
 
             fileList.addClass('animated');
 
+            var shortend = false;
+            if(breadcrumbsUrls.length > 2){
+            	while(breadcrumbsUrls.length > 3){
+            		breadcrumbsUrls.shift();
+            	}
+            	shortend = true;
+            }
+
             breadcrumbsUrls.forEach(function(u, i) {
 
                 var name = u.split('/');
+                name =  name[name.length - 1];
+                console.log(shortend,name,i);
+                if(shortend && i == 0){
+                	name = "...";
+                }
 
                 if (i !== breadcrumbsUrls.length - 1) {
-                    url += '<a href="' + u + '"><span class="folderName">' + name[name.length - 1] + '</span></a> <span class="arrow">→</span> ';
+                    url += '<a href="' + u + '"><span class="folderName">' + name + '</span></a> <span class="arrow">&gt;</span> ';
                 } else {
-                    url += '<span class="folderName">' + name[name.length - 1] + '</span>';
+                    url += '<span class="folderName">' + name + '</span>';
                 }
 
             });
