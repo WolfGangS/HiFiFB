@@ -1,6 +1,27 @@
+function sendWebEvent(type, data) {
+    data = { type: type, data: data };
+    EventBridge.emitWebEvent(data);
+}
+
+function fileClick(url){
+	sendWebEvent("log",url);
+}
+
+
 (function() {
 
+    var templates = {};
+
     $(document).ready(function() {
+
+        $('script[type="x-tmpl-mustache"]').each(function() {
+            var id = $(this).attr("id").split("-");
+            id.pop();
+            id = id.join('');
+            templates[id] = $(this).html().trim();
+            Mustache.parse(templates[id]);
+        });
+
         filemanager.find('input').on('input', function(e) {
 
             folders = [];
@@ -102,8 +123,31 @@
         }
     }
 
+    function parseData(data) {
+        for (var i = 0; i < data.length; i++) {
+            var datum = data[i];
+            datum.safeName = escapeHTML(datum.name);
+            switch (datum.type) {
+                case "file":
+                    datum.fileSize = bytesToSize(datum.size);
+                    datum.extension = datum.safeName.split('.').pop();
+                    break;
+                case "folder":
+                    if (!Array.isArray(datum.items)) {
+                        datum.items = [];
+                    }
+                    datum.items = parseData(datum.items);
+                    datum.state = datum.items.length > 0 ? "full" : "empty";
+                    datum.count = datum.items.length > 0 ? (datum.items.length + " Item" + (datum.items.length > 1 ? "s" : "")) : 'Empty';
+                    break;
+            }
+        }
+        return data;
+    }
+
+
     function dataResponse(data) {
-        response = [data];
+        response = parseData([data]);
         $(window).trigger('hashchange');
     }
 
@@ -149,7 +193,6 @@
             var rendered = '';
 
             // if hash has search in it
-            console.log(hash[0]);
             if (hash[0] === 'search') {
 
                 filemanager.addClass('searching');
@@ -173,7 +216,7 @@
             else if (hash[0].trim().length) {
 
                 rendered = searchByPath(hash[0]);
-                console.log(rendered);
+
                 if (rendered.length) {
 
                     currentPath = hash[0];
@@ -301,17 +344,8 @@
                 if (itemsLength) {
                     icon = '<span class="icon folder full"></span>';
                 }
-
-                if (itemsLength == 1) {
-                    itemsLength += ' item';
-                } else if (itemsLength > 1) {
-                    itemsLength += ' items';
-                } else {
-                    itemsLength = 'Empty';
-                }
-
-                var folder = $('<li class="folders"><a href="' + f.path + '" title="' + f.path + '" class="folders">' + icon + '<span class="name">' + name + '</span> <span class="details">' + itemsLength + '</span></a></li>');
-                folder.appendTo(fileList);
+                var rend = $(Mustache.render(templates.folder, f));
+                rend.appendTo(fileList);
             });
 
         }
@@ -319,18 +353,7 @@
         if (scannedFiles.length) {
 
             scannedFiles.forEach(function(f) {
-
-                var fileSize = bytesToSize(f.size),
-                    name = escapeHTML(f.name),
-                    fileType = name.split('.'),
-                    icon = '<span class="icon file"></span>';
-
-                fileType = fileType[fileType.length - 1];
-
-                icon = '<span class="icon file f-' + fileType + '">.' + fileType + '</span>';
-
-                var file = $('<li class="files"><a href="#" data-url="' + f.path + '" title="' + f.path + '" class="files">' + icon + '<span class="name">' + name + '</span> <span class="details">' + fileSize + '</span></a></li>');
-                file.appendTo(fileList);
+                $(Mustache.render(templates.file, f)).appendTo(fileList);
             });
 
         }
@@ -361,7 +384,7 @@
 
                 var name = u.split('/');
                 name = name[name.length - 1];
-                console.log(shortend, name, i);
+
                 if (shortend && i == 0) {
                     name = "...";
                 }
