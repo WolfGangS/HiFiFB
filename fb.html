@@ -36,6 +36,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <title>File Browser</title>
         <script src="app/js/jquery-3.3.1.min.js"></script>
+        <script src="app/js/bootstrap.bundle.min.js"></script>
         <script src="app/js/mustache.min.js"></script>
         <!--script src="app/js/script.js"></script-->
         <script>
@@ -48,27 +49,44 @@
             head.insertBefore(scr, head.firstChild);
         });
         </script>
-
         <script id="folder-tmpl" type="x-tmpl-mustache">
-			<li class="folders"><a href="{{path}}" title="{{path}}" class="folders"><span class="icon folder {{state}}"></span><span class="name">{{safeName}}</span> <span class="details">{{count}}</span></a></li>
-		</script>
+            <li class="folders"><a href="{{path}}" title="{{path}}" class="folders"><span class="icon folder {{state}}"></span><span class="name">{{safeName}}</span> <span class="details">{{count}}</span></a></li>
+        </script>
         <script id="file-icon-tmpl" type="x-tmpl-mustache">
-			
-		</script>
+        </script>
         <script id="file-tmpl" type="x-tmpl-mustache">
-			<li class="files"><a href="#" onclick="fileClick($(this).data('url'));return false;" data-url="{{path}}" title="{{path}}" class="files"><span class="icon file f-{{extension}}">.{{extension}}</span><span class="name">{{safeName}}</span> <span class="details">{{fileSize}}</span></a></li>
-		</script>
-
+            <li class="files"><a href="#" onclick="fileClick($(this).data('url'));return false;" data-url="{{path}}" title="{{path}}" class="files"><span class="icon file f-{{extension}}">.{{extension}}</span><span class="name">{{safeName}}</span> <span class="details">{{fileSize}}</span></a></li>
+        </script>
         <!-- Include our stylesheet -->
+        <link href="app/css/bootstrap.min.css" rel="stylesheet" />
         <link href="app/css/styles.css" rel="stylesheet" />
     </head>
 
     <body>
         <div class="filemanager">
+            <div class="breadcrumbs"></div>
             <div class="search">
                 <input type="search" placeholder="Find a file.." />
             </div>
-            <div class="breadcrumbs"></div>
+            <div class="switches">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary active">
+                        <input type="checkbox" name="showImages" id="showImages" checked> Images
+                    </label>
+                    <label class="btn btn-secondary active">
+                        <input type="checkbox" name="showModels" id="showModels" checked> Models
+                    </label>
+                    <label class="btn btn-secondary active">
+                        <input type="checkbox" name="showSounds" id="showSounds" checked> Sounds
+                    </label>
+                    <label class="btn btn-secondary active">
+                        <input type="checkbox" name="showScripts" id="showScripts" checked> Scripts
+                    </label>
+                    <label class="btn btn-secondary active">
+                        <input type="checkbox" name="showMisc" id="showMisc" checked> Misc
+                    </label>
+                </div>
+            </div>
             <ul class="data"></ul>
             <div class="nothingfound">
                 <div class="nofiles"></div>

@@ -11,6 +11,8 @@ var DEV_MODE = true;
     var overlayHTML = "fb.html" + DEV_STRING;
     var overlayName = "File Browser";
 
+    var baseURL = "";
+
     var overlayProps = {
         title: overlayName,
         source: Script.resolvePath(overlayHTML),
@@ -19,6 +21,15 @@ var DEV_MODE = true;
         visible: true,
         pinnable: false,
     };
+
+    ScriptDiscoveryService.getRunning().forEach(function(s){
+        if(!s.local){
+            if(s.name == "HiFiFB.js"){
+                var url = s.url.split(s.name);
+                baseURL = url[0];
+            }
+        }
+    });
 
     var webOverlay = new OverlayWebWindow(overlayProps);
 
@@ -33,6 +44,10 @@ var DEV_MODE = true;
             switch (msg.type) {
                 case "log":
                     console.log("FROM WEB: ", msg);
+                    break;
+                case "fileClick":
+                    var url = baseURL + msg.data;
+                    spawnURL(url);
                     break;
             }
         }
@@ -73,12 +88,53 @@ var DEV_MODE = true;
         icon: Script.resolvePath("folder-white.svg"),
         activeIcon: Script.resolvePath("folder-black.svg"),
         text: "Web Example",
-        isActive: false,
+        isActive: overlayProps.visible,
         sortOrder: 30
     });
 
     button.clicked.connect(toggleWebOverlay);
 
+
+    function spawnURL(url){
+        var ext = getExtension(url);
+        var fullURL = Script.resolvePath(url);
+        switch(ext){
+            case "fbx":
+            spawnFBX(fullURL);
+            break;
+        }
+    }
+
+
+    function spawnFBX(url){
+        var prts = url.split("/");
+        var name = prts[prts.length -1];
+        Entities.addEntity({
+            type: "Model",
+            modelURL: url,
+            position: getPosInfrontOfAvatar(5),
+            name: name,
+            dimensions: {x:1,y:1,z:1},
+            rotation: MyAvatar.orientation,
+        });
+    }
+
+
+    function getPosInfrontOfAvatar(dist){
+        return Vec3.sum(MyAvatar.position,Vec3.multiply(dist,Quat.getForward(MyAvatar.orientation)));
+    }
+
+
+    function getExtension(str){
+        str = str.split("#")[0];
+        str = str.split("?")[0];
+        str = str.split(".");
+        if(str.length > 0){
+            return str[str.length - 1].toLowerCase();
+        } else {
+            return null;
+        }
+    }
 
     //////////////////////////////
     ////////// Cleanup ///////////
