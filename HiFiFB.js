@@ -21,7 +21,11 @@
 
   webOverlay.webEventReceived.connect(webEvent);
   function webEvent(msg){
-    switch(msg.type)
+    switch(msg.type){
+        case "log":
+            console.log("FROM WEB: ",msg);
+            break;
+    }
   }
   
   function sendScriptEvent(type,data){
@@ -56,8 +60,8 @@
   var tablet = Tablet.getTablet("com.highfidelity.interface.tablet.system");
   
   var button = tablet.addButton({
-    icon: Script.resolvePath("web-icon-white.svg"),
-    activeIcon: Script.resolvePath("web-icon-black.svg"),
+    icon: Script.resolvePath("folder-white.svg"),
+    activeIcon: Script.resolvePath("folder-black.svg"),
     text: "Web Example",
     isActive: false,
     sortOrder: 30

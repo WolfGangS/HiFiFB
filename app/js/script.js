@@ -366,7 +366,7 @@
                 }
 
                 if (i !== breadcrumbsUrls.length - 1) {
-                    url += '<a href="' + u + '"><span class="folderName">' + name + '</span></a> <span class="arrow">&gt;</span> ';
+                    url += '<a href="#" data-url="' + u + '"><span class="folderName">' + name + '</span></a> <span class="arrow">&gt;</span> ';
                 } else {
                     url += '<span class="folderName">' + name + '</span>';
                 }
