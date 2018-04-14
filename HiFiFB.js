@@ -21,12 +21,12 @@ var DEV_MODE = true;
         visible: true,
         pinnable: false,
     };
-
+    var NAME = "HiFiFB";
     ScriptDiscoveryService.getRunning().forEach(function(s){
         if(!s.local){
             if(s.name == "HiFiFB.js"){
-                var url = s.url.split(s.name);
-                baseURL = url[0];
+                var url = s.url.split("://");
+                NAME = url[1].split("/")[0];
             }
         }
     });
@@ -87,7 +87,7 @@ var DEV_MODE = true;
     var button = tablet.addButton({
         icon: Script.resolvePath("folder-white.svg"),
         activeIcon: Script.resolvePath("folder-black.svg"),
-        text: "Web Example",
+        text: NAME,
         isActive: overlayProps.visible,
         sortOrder: 30
     });
