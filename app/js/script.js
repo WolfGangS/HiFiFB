@@ -328,7 +328,7 @@
 
                 icon = '<span class="icon file f-' + fileType + '">.' + fileType + '</span>';
 
-                var file = $('<li class="files"><a href="' + f.path + '" title="' + f.path + '" class="files">' + icon + '<span class="name">' + name + '</span> <span class="details">' + fileSize + '</span></a></li>');
+                var file = $('<li class="files"><a href="#" data-url="' + f.path + '" title="' + f.path + '" class="files">' + icon + '<span class="name">' + name + '</span> <span class="details">' + fileSize + '</span></a></li>');
                 file.appendTo(fileList);
             });
 
@@ -366,7 +366,7 @@
                 }
 
                 if (i !== breadcrumbsUrls.length - 1) {
-                    url += '<a href="#" data-url="' + u + '"><span class="folderName">' + name + '</span></a> <span class="arrow">&gt;</span> ';
+                    url += '<a href="' + u + '"><span class="folderName">' + name + '</span></a> <span class="arrow">&gt;</span> ';
                 } else {
                     url += '<span class="folderName">' + name + '</span>';
                 }
