@@ -43,6 +43,16 @@ body {
     }
 }
 
+.filemanager .topbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	padding-left: 10px;
+	padding-right: 10px;
+	z-index: 10;
+    background-color: #23232e;
+}
 
 
 /*-------------------------
@@ -135,6 +145,7 @@ body {
 
 .filemanager .switches {
 	margin-top: 10px;
+	margin-bottom: 5px;
 }
 
 
@@ -144,7 +155,7 @@ body {
 -------------------------*/
 
 .filemanager .data {
-    margin-top: 1px;
+    margin-top: 140px;
     z-index: -3;
 }
 

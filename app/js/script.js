@@ -321,13 +321,19 @@ var baseURL = "";
     		hiddenExtenstions.push("js");
     	}
     	if(!$("#showModels").prop("checked")){
-    		hiddenExtenstions.push(...["fst","obj","fbx"]);
+    		hiddenExtenstions.push("fst");
+    		hiddenExtenstions.push("obj");
+    		hiddenExtenstions.push("fbx");
     	}
     	if(!$("#showSounds").prop("checked")){
-    		hiddenExtenstions.push(...["ogg"]);
+    		hiddenExtenstions.push("ogg");
     	}
     	if(!$("#showImages").prop("checked")){
-    		hiddenExtenstions.push(...["png","svg","jpg","jpeg","gif"]);
+    		hiddenExtenstions.push("png");
+    		hiddenExtenstions.push("svg");
+    		hiddenExtenstions.push("jpg");
+    		hiddenExtenstions.push("jpeg");
+    		hiddenExtenstions.push("gif");
     	}
     	showMiscExtensions = $("#showMisc").prop("checked");
     }
