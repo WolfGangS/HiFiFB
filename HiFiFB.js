@@ -1,11 +1,14 @@
 //Deine out Scope
+var DEV_MODE = true;
 (function() {
   
   //////////////////////////////
   /////////// Overlay //////////
   //////////////////////////////
   
-  var overlayHTML = "fb.html";
+  var DEV_STRING = DEV_MODE ? "?dev=" + Date.now() : "";
+
+  var overlayHTML = "fb.html" + DEV_STRING;
   var overlayName = "File Browser";
   
   var overlayProps = {

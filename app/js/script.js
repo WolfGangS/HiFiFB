@@ -1,6 +1,82 @@
 (function() {
 
     $(document).ready(function() {
+        filemanager.find('input').on('input', function(e) {
+
+            folders = [];
+            files = [];
+
+            var value = this.value.trim();
+
+            if (value.length) {
+
+                filemanager.addClass('searching');
+
+                // Update the hash on every key stroke
+                window.location.hash = 'search=' + value.trim();
+
+            } else {
+
+                filemanager.removeClass('searching');
+                window.location.hash = encodeURIComponent(currentPath);
+
+            }
+
+        }).focusout(function(e) {
+
+            // Cancel the search
+
+            var search = $(this);
+
+            if (!search.val().trim().length) {
+
+                window.location.hash = encodeURIComponent(currentPath);
+                //search.hide();
+                //search.parent().find('span').show();
+
+            }
+
+        });
+
+
+        // Clicking on folders
+
+        fileList.on('click', 'li.folders', function(e) {
+            e.preventDefault();
+
+            var nextDir = $(this).find('a.folders').attr('href');
+
+            if (filemanager.hasClass('searching')) {
+
+                // Building the breadcrumbs
+
+                breadcrumbsUrls = generateBreadcrumbs(nextDir);
+
+                filemanager.removeClass('searching');
+                filemanager.find('input[type=search]').val('').hide();
+                filemanager.find('span').show();
+            } else {
+                breadcrumbsUrls.push(nextDir);
+            }
+
+            window.location.hash = encodeURIComponent(nextDir);
+            currentPath = nextDir;
+        });
+
+
+        // Clicking on breadcrumbs
+
+        breadcrumbs.on('click', 'a', function(e) {
+            e.preventDefault();
+
+            var index = breadcrumbs.find('a').index($(this)),
+                nextDir = breadcrumbsUrls[index];
+
+            breadcrumbsUrls.length = Number(index);
+
+            window.location.hash = encodeURIComponent(nextDir);
+
+        });
         getData();
     });
 
@@ -60,82 +136,7 @@
     // We are using the "input" event which detects cut and paste
     // in addition to keyboard input.
 
-    filemanager.find('input').on('input', function(e) {
 
-        folders = [];
-        files = [];
-
-        var value = this.value.trim();
-
-        if (value.length) {
-
-            filemanager.addClass('searching');
-
-            // Update the hash on every key stroke
-            window.location.hash = 'search=' + value.trim();
-
-        } else {
-
-            filemanager.removeClass('searching');
-            window.location.hash = encodeURIComponent(currentPath);
-
-        }
-
-    }).focusout(function(e) {
-
-        // Cancel the search
-
-        var search = $(this);
-
-        if (!search.val().trim().length) {
-
-            window.location.hash = encodeURIComponent(currentPath);
-            //search.hide();
-            //search.parent().find('span').show();
-
-        }
-
-    });
-
-
-    // Clicking on folders
-
-    fileList.on('click', 'li.folders', function(e) {
-        e.preventDefault();
-
-        var nextDir = $(this).find('a.folders').attr('href');
-
-        if (filemanager.hasClass('searching')) {
-
-            // Building the breadcrumbs
-
-            breadcrumbsUrls = generateBreadcrumbs(nextDir);
-
-            filemanager.removeClass('searching');
-            filemanager.find('input[type=search]').val('').hide();
-            filemanager.find('span').show();
-        } else {
-            breadcrumbsUrls.push(nextDir);
-        }
-
-        window.location.hash = encodeURIComponent(nextDir);
-        currentPath = nextDir;
-    });
-
-
-    // Clicking on breadcrumbs
-
-    breadcrumbs.on('click', 'a', function(e) {
-        e.preventDefault();
-
-        var index = breadcrumbs.find('a').index($(this)),
-            nextDir = breadcrumbsUrls[index];
-
-        breadcrumbsUrls.length = Number(index);
-
-        window.location.hash = encodeURIComponent(nextDir);
-
-    });
 
 
     // Navigates to the given hash (path)
@@ -155,8 +156,8 @@
                 var searchString = hash[1].toLowerCase();
                 rendered = searchData(response, searchString);
 
-                if(filemanager.find('input').val().length !== searchString){
-                	filemanager.find('input').val(searchString);
+                if (filemanager.find('input').val().length !== searchString) {
+                    filemanager.find('input').val(searchString);
                 }
 
                 if (rendered.length) {
@@ -210,7 +211,7 @@
     // Locates a file by path
 
     function searchByPath(dir) {
-    	if(typeof dir !== "string")dir = "";
+        if (typeof dir !== "string") dir = "";
         var path = dir.split('/'),
             demo = response,
             flag = 0;
@@ -349,20 +350,20 @@
             fileList.addClass('animated');
 
             var shortend = false;
-            if(breadcrumbsUrls.length > 2){
-            	while(breadcrumbsUrls.length > 3){
-            		breadcrumbsUrls.shift();
-            	}
-            	shortend = true;
+            if (breadcrumbsUrls.length > 2) {
+                while (breadcrumbsUrls.length > 3) {
+                    breadcrumbsUrls.shift();
+                }
+                shortend = true;
             }
 
             breadcrumbsUrls.forEach(function(u, i) {
 
                 var name = u.split('/');
-                name =  name[name.length - 1];
-                console.log(shortend,name,i);
-                if(shortend && i == 0){
-                	name = "...";
+                name = name[name.length - 1];
+                console.log(shortend, name, i);
+                if (shortend && i == 0) {
+                    name = "...";
                 }
 
                 if (i !== breadcrumbsUrls.length - 1) {
