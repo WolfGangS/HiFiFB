@@ -316,6 +316,7 @@ var baseURL = "";
     var hiddenExtenstions = [];
     var showMiscExtensions = true;
     function recalcShownExtensions(){
+    	hiddenExtenstions = [];
     	if(!$("#showScripts").prop("checked")){
     		hiddenExtenstions.push("js");
     	}
